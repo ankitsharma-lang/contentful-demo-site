@@ -9,8 +9,8 @@
     "production": "cross-env NODE_ENV=production node ./bin/www"
   },
   "config": {
-    "accessToken": "dzGWRumjmODRswCjGycnyOrgIf5mLU36IA-mPMewAro",
-    "space": "gmzkjhepq4q4"
+    "accessToken": "hKzqAoOzW_zEfrNjI5WrmRcAgG7ilgy2mhVtM7YzRo0",
+    "space": "awnrbbsvgz9a"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
