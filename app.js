@@ -8,7 +8,9 @@ var helmet = require('helmet')
 var products = require('./routes/products')
 var categories = require('./routes/categories')
 var brands = require('./routes/brands')
+var spaces = require('./services/spaces')
 
+var config = require('./services/contentfulClient').config
 var app = express()
 
 // view engine setup
@@ -26,6 +28,41 @@ app.use('/', products)
 app.use('/products', products)
 app.use('/categories', categories)
 app.use('/brand', brands)
+
+app.get('/get-session-data', function (req, res) {
+  let cookie = req.cookies.sessionData;
+  if (cookie === undefined) {
+    cookie = {}
+    let options = { maxAge: 1000*60*60, httpOnly: false }
+    spaces.getEnvironment().then(function (envcollection) {
+      cookie['env'] = envcollection.items
+      return spaces.getLocales()
+    })
+    .then(function (locales) { 
+      cookie['locales'] = locales.items
+      cookie['sel_env'] = req.query.sel_env || 'master'
+      cookie['sel_locale'] = req.query.sel_locale || 'en-US'
+      res.cookie('sessionData',cookie,options)
+      res.send(cookie)
+    })
+    .catch(function (err) {
+      console.log('app.js - getEnvironment (line 48) error:', JSON.stringify(err,null,2))
+    })
+  } else {
+    cookie['sel_env'] = req.query.sel_env || 'master'
+    cookie['sel_locale'] = req.query.sel_locale || 'en-US'
+    res.send(cookie)
+  }
+})
+
+app.get('/set-session-data', function (req, res) {
+  var cookie = req.cookies.sessionData
+  let options = { maxAge: 1000*60*60, httpOnly: false }
+  cookie['sel_env'] = req.query.sel_env
+  cookie['sel_locale'] = req.query.sel_locale
+  res.cookie('sessionData',cookie,options)
+  res.send(cookie)
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

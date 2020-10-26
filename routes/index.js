@@ -4,7 +4,7 @@ var products = require('../services/products')
 
 /* GET home page. */
 router.use(function (req, res, next) {
-  products.getProducts().then(function (productCollection) {
+  products.getProducts({request: req}).then(function (productCollection) {
     req.products = productCollection
     next()
   }).catch(function (err) {

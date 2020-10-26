@@ -5,25 +5,29 @@
   "scripts": {
     "start": "npm run production",
     "heroku-prebuild": "npm install",
-    "dev": "cross-env NODE_ENV=development nodemon ./bin/www",
+    "dev": "cross-env NODE_ENV=development nodemon -e js,json,pug ./bin/www",
     "production": "cross-env NODE_ENV=production node ./bin/www"
   },
   "config": {
     "accessToken": "hKzqAoOzW_zEfrNjI5WrmRcAgG7ilgy2mhVtM7YzRo0",
-    "space": "awnrbbsvgz9a"
+    "cmaToken": "CFPAT-FYaPZf0AGKSoxSHqDF_hqdenJd1u1uS4XFW9Ac3b8pk",
+    "space": "awnrbbsvgz9a",
+    "sessionSecret": "2C44-4D44-WppQ38S-some-random-4K3d"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "compression": "^1.6.2",
-    "contentful": "^3.6.4",
+    "contentful": "^7.14.8",
+    "contentful-management": "^6.1.2",
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.0.1",
     "debug": "~2.2.0",
     "express": "^4.16.4",
+    "express-session": "^1.17.1",
     "helmet": "^2.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.7",
-    "pug": "^2.0.3",
+    "pug": "^3.0.0",
     "serve-favicon": "^2.5.0"
   }
 }

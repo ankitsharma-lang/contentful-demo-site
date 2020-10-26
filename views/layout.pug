@@ -4,6 +4,8 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+    script(src='/js/dropdowns.js')
   body
     main
       .app-container
@@ -15,5 +17,8 @@ html
                 a(href="/" data-nav) Home
               li
                 a(href="/categories" data-nav) Categories
+              select.ddenv
+              select.ddloc
+
         #content.content-container
           block content

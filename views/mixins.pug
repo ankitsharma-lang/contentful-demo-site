@@ -80,8 +80,11 @@ mixin renderCategoriesList(categories)
     a(href="/categories") All
   for category in categories
     li
+    if category.fields.icon.fields.file
       img(src=category.fields.icon.fields.file.url width="20" height="20" alt=category.fields.categoryDescription title=category.fields.categoryDescription)
-      a(href="/categories/"+category.sys.id data-nav) #{category.fields.title} 
+    else
+      img(width="20" height="20" alt=category.fields.categoryDescription title=category.fields.categoryDescription)
+    a(href="/categories/"+category.sys.id data-nav) #{category.fields.title} 
 
 
 mixin renderBrand(brand)

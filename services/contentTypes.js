@@ -1,9 +1,12 @@
 var client = require('./contentfulClient').client
+var helper = require('../helpers/changeclient')
 
 var contentTypes = {}
 
-function getContentTypes () {
-  return client.getContentTypes().then(function (collection) {
+function getContentTypes (query) {
+  let myClient = client;
+  let config = helper.switchClient(myClient, query)
+  return config.myClient.getContentTypes().then(function (collection) {
     contentTypes = collection
   })
 }
