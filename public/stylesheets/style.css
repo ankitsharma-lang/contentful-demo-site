@@ -9,7 +9,7 @@ body {
   padding: 0;
   margin: 0;
   border: none;
-  font-family: 'Avenir', sans-serif;
+  font-family: "Avenir", sans-serif;
 }
 
 main {
@@ -21,8 +21,8 @@ main {
 }
 
 a {
-  border-bottom: 1px dotted #5B9FEF;
-  color: #4A90E2;
+  border-bottom: 1px dotted #5b9fef;
+  color: #4a90e2;
   text-decoration: none;
 }
 
@@ -38,18 +38,16 @@ a {
 }
 
 .app-container nav {
-  background: #192532;
+  background: #0069aa;
 }
 
 select:focus {
   outline: none;
 }
 
-select{
+select {
   font-size: 16px;
-  background: #192532;
-  color:rgba(255,255,255,0.75);
-  text-shadow: 0 0 0 #000;
+  background: #0069aa;
 }
 
 .content-container {
@@ -84,12 +82,12 @@ select{
 
 .app-container nav a {
   display: inline-block;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   border-bottom: none;
 }
 .app-container nav select {
   display: inline-block;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   border-bottom: none;
 }
 
@@ -130,8 +128,8 @@ select{
 
 .settings-form input {
   width: 350px;
-  background-color: #F7F9FA;
-  border: 1px solid #DBE3E7;
+  background-color: #f7f9fa;
+  border: 1px solid #dbe3e7;
   color: #536171;
 }
 
@@ -145,7 +143,7 @@ select{
 .settings-form button {
   width: 200px;
   border: 1px solid #2b67ad;
-  background: linear-gradient(0deg, #3C80CF 0%, #5B9FEF 100%) no-repeat;
+  background: linear-gradient(0deg, #3c80cf 0%, #5b9fef 100%) no-repeat;
   color: white;
 }
 
@@ -184,12 +182,15 @@ select{
   font-weight: bold;
 }
 
-.product, .single-product {
+.product,
+.single-product {
   display: flex;
   flex-direction: column;
 }
 
-.single-product > *, product > *, .brand > * {
+.single-product > *,
+product > *,
+.brand > * {
   margin-bottom: 15px;
 }
 
@@ -224,19 +225,19 @@ select{
 .tags {
   list-style: none;
   margin: 0;
-  overflow: hidden; 
+  overflow: hidden;
   padding: 0;
 }
 
 .tags li {
-  float: left; 
+  float: left;
 }
 .tags li a {
   border-bottom: none;
 }
 .tag {
   background: #eee;
-  color: #4A90E2;
+  color: #4a90e2;
   border-radius: 3px 0 0 3px;
   display: inline-block;
   height: 26px;
@@ -252,7 +253,7 @@ select{
   background: #fff;
   border-radius: 10px;
   box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
-  content: '';
+  content: "";
   height: 6px;
   left: 10px;
   position: absolute;
@@ -265,7 +266,7 @@ select{
   border-bottom: 13px solid transparent;
   border-left: 10px solid #eee;
   border-top: 13px solid transparent;
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 0;
@@ -273,9 +274,9 @@ select{
 
 .tag:hover {
   background-color: #dbe3e7;
-  color: #4A90E2;
+  color: #4a90e2;
 }
 
 .tag:hover::after {
-   border-left-color: #dbe3e7; 
+  border-left-color: #dbe3e7;
 }
