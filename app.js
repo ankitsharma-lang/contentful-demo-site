@@ -30,34 +30,36 @@ app.use('/categories', categories)
 app.use('/brand', brands)
 
 app.get('/get-session-data', function (req, res) {
-  let cookie = req.cookies.sessionData;
-  if (cookie === undefined) {
-    cookie = {}
-    let options = { maxAge: 1000*60*60, httpOnly: false }
+    response = {}
     spaces.getEnvironment().then(function (envcollection) {
-      cookie['env'] = envcollection.items
-      return spaces.getLocales()
+      response['env'] = envcollection.items
+      let promisesLocales = [];
+      for (let env of envcollection.items) {
+        promisesLocales.push(env.getLocales())
+      }
+      return Promise.all(promisesLocales);
     })
-    .then(function (locales) { 
-      cookie['locales'] = locales.items
-      cookie['sel_env'] = req.query.sel_env || 'master'
-      cookie['sel_locale'] = req.query.sel_locale || 'en-US'
-      res.cookie('sessionData',cookie,options)
-      res.send(cookie)
+    .then(function (allLocales) { 
+      let locales = {};
+      for(let i = 0 ; i < response.env.length; i++ ) {
+        locales[response.env[i].sys.id] = allLocales[i].items
+      }
+      response['locales'] = locales;
+      response['sel_env'] = req.query.sel_env || 'master'
+      response['sel_locale'] = req.query.sel_locale || 'en-US'
+      res.send(response)
     })
     .catch(function (err) {
       console.log('app.js - getEnvironment (line 48) error:', JSON.stringify(err,null,2))
     })
-  } else {
-    cookie['sel_env'] = req.query.sel_env || 'master'
-    cookie['sel_locale'] = req.query.sel_locale || 'en-US'
-    res.send(cookie)
-  }
 })
 
 app.get('/set-session-data', function (req, res) {
-  var cookie = req.cookies.sessionData
+  let cookie = req.cookies.sessionData;
   let options = { maxAge: 1000*60*60, httpOnly: false }
+  if (cookie === undefined) {
+    cookie = {}
+  }
   cookie['sel_env'] = req.query.sel_env
   cookie['sel_locale'] = req.query.sel_locale
   res.cookie('sessionData',cookie,options)
