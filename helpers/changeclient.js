@@ -8,7 +8,7 @@ function processClientAndQuery(myClient, query) {
           myClient = client.getClient(req.cookies.sessionData.sel_env)
         } 
         if (req.cookies.sessionData.sel_locale) {
-          query.locale = req.cookies.sessionData.sel_locale
+          query.locale = req?.query?.locale ?? req.cookies.sessionData.sel_locale
         }
       }
       delete query.request;
