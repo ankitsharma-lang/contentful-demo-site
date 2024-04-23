@@ -13,11 +13,19 @@ var spaces = require('./services/spaces')
 var config = require('./services/contentfulClient').config
 var app = express()
 
+const allowOrigin = {
+  contentSecurityPolicy: {
+    directives: {
+      "frame-ancestors": ["'self'", "https://app.contentful.com"] // Allowing for content demo
+    }
+  }
+};
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 app.set('view cache', true)
-app.use(helmet()) // protect from well known vulnerabilities
+app.use(helmet(allowOrigin)) // protect from well known vulnerabilities
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
