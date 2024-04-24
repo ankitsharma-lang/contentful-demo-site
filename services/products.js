@@ -8,7 +8,7 @@ function getProduct (slug, query) {
   let config = helper.switchClient(myClient, query)
   config.query.content_type = 'product'
   config.query['fields.slug'] = slug
-  console.log(config.query)
+
   return config.myClient.getEntries(config.query)
 }
 

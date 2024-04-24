@@ -32,6 +32,16 @@ app.use(cookieParser())
 app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Middleware to handle URL parameters
+app.use((req, res, next) => {
+  // console.log(req.query);
+  res.locals.context = req.query.context == 'contentful' ? 1 : 0; // Extract 'showNav' query parameter from URL
+  context = req.query.context ? `?context=${req.query.context}` : '';
+  locale = req.query.locale ? `&locale=${req.query.locale}` : '';
+  res.locals.url_params = context + locale;
+  next();
+});
+
 app.use('/', products)
 app.use('/products', products)
 app.use('/categories', categories)

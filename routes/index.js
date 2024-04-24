@@ -4,7 +4,13 @@ var products = require('../services/products')
 
 /* GET home page. */
 router.use(function (req, res, next) {
-  products.getProducts({request: req}).then(function (productCollection) {
+  var request = {request: req};
+  if (res.locals.context == '1') {
+    request = req.query;
+    delete req.query.context;
+  }
+
+  products.getProducts(request).then(function (productCollection) {
     req.products = productCollection
     next()
   }).catch(function (err) {

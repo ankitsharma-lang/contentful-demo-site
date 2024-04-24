@@ -10,15 +10,16 @@ html
     main
       .app-container
         nav
-          .nav-container
-            img(src='/images/acclaro.png' height="50")
-            ul
-              li
-                a(href="/" data-nav) Home
-              li
-                a(href="/categories" data-nav) Categories
-              select.ddenv
-              select.ddloc
+          if context == '0'
+            .nav-container
+              img(src='/images/acclaro.png' height="50")
+              ul
+                li
+                  a(href="/" data-nav) Home
+                li
+                  a(href="/categories" data-nav) Categories
+                select.ddenv
+                select.ddloc
 
         #content.content-container
           block content

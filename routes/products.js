@@ -4,7 +4,13 @@ var products = require('../services/products')
 
 /* router params */
 router.param('slug', function (req, res, next, slug) {
-  products.getProduct(slug, {request: req}).then(function (product) {
+  var request = {request: req};
+  if (res.locals.context == '1') {
+    request = req.query;
+    delete req.query.context;
+  }
+
+  products.getProduct(slug, request).then(function (product) {
     req.product = product.items[0]
     next()
   }).catch(function (err) {
@@ -14,7 +20,13 @@ router.param('slug', function (req, res, next, slug) {
 })
 
 router.use(function (req, res, next) {
-  products.getProducts({request: req}).then(function (productCollection) {
+  var request = {request: req};
+  if (res.locals.context == '1') {
+    request = req.query;
+    delete req.query.context;
+  }
+
+  products.getProducts(request).then(function (productCollection) {
     req.products = productCollection.items
     next()
   }).catch(function (err) {

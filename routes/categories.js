@@ -4,7 +4,12 @@ var categories = require('../services/categories.js')
 var products = require('../services/products')
 /* router params */
 router.param('id', function (req, res, next, id) {
-  categories.getCategories({request: req}).then(function (categories) {
+  var request = {request: req};
+  if (res.locals.context == '1') {
+    request = req.query;
+    delete req.query.context;
+  }
+  categories.getCategories(request).then(function (categories) {
     req.categories = categories.items
     products.getProductsInCategory(id, {request: req}).then(function (productsCollection) {
       req.products = productsCollection.items
@@ -20,7 +25,13 @@ router.param('id', function (req, res, next, id) {
 })
 
 router.use(function (req, res, next) {
-  categories.getCategories({request: req}).then(function (categoryCollection) {
+  var request = {request: req};
+  if (res.locals.context == '1') {
+    request = req.query;
+    delete req.query.context;
+  }
+
+  categories.getCategories(request).then(function (categoryCollection) {
     req.categories = categoryCollection.items
     products.getProducts({request: req}).then(function (productsCollection) {
       req.products = productsCollection.items

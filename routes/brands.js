@@ -4,7 +4,14 @@ var router = express.Router()
 
 /* router params */
 router.param('id', function (req, res, next, id) {
-  brands.getBrand(id, {request: req}).then(function (brandsCollection) {
+  var request = {request: req};
+  if (res.locals.context == '1') {
+    request = req.query;
+    delete req.query.context;
+    delete req.query.content_type;
+  }
+
+  brands.getBrand(id, request).then(function (brandsCollection) {
     req.brand = brandsCollection.items[0]
     next()
   }).catch(function (err) {
