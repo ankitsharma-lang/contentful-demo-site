@@ -1,30 +1,35 @@
-var client = require('./contentfulClient').client
-var helper = require('../helpers/changeclient')
+// services/products.js
+var client = require('./contentfulClient').client;
+var helper = require('../helpers/changeclient');
+var { getTypeId } = require('./contentTypeResolver');
 
-function getProduct (slug, query) {
-  // little trick to get an entry with include
-  // this way all linked items will be resolved for us
+// You can choose to resolve by API ID or by display name.
+// These env vars are optional; fall back to common names.
+const PRODUCT_KEY = process.env.PRODUCT_TYPE_KEY || 'product';
+
+function getProduct(slug, query) {
   let myClient = client;
-  let config = helper.switchClient(myClient, query)
-  config.query.content_type = 'product'
-  config.query['fields.slug'] = slug
+  let config = helper.switchClient(myClient, query);
 
-  return config.myClient.getEntries(config.query)
+  return getTypeId(PRODUCT_KEY).then(typeId => {
+    config.query.content_type = typeId || PRODUCT_KEY; // fallback if not found
+    config.query['fields.slug'] = slug;
+    return config.myClient.getEntries(config.query);
+  });
 }
 
-function getProducts (query) {
+function getProducts(query) {
   let myClient = client;
-  let config = helper.switchClient(myClient, query)
-  config.query.content_type = 'product'
-  return config.myClient.getEntries(config.query)
+  let config = helper.switchClient(myClient, query);
+
+  return getTypeId(PRODUCT_KEY).then(typeId => {
+    config.query.content_type = typeId || PRODUCT_KEY;
+    return config.myClient.getEntries(config.query);
+  });
 }
 
-function getProductsInCategory (id) {
-  return getProducts({'fields.categories.sys.id[in]': id})
+function getProductsInCategory(id) {
+  return getProducts({ 'fields.categories.sys.id[in]': id });
 }
 
-module.exports = {
-  getProduct,
-  getProducts,
-  getProductsInCategory
-}
+module.exports = { getProduct, getProducts, getProductsInCategory };
