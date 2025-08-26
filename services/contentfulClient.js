@@ -1,34 +1,18 @@
-var contentful = require('contentful')
-var config = require('../package.json').config || {}
-var cmacontentful = require('contentful-management')
-var cmaclient = cmacontentful.createClient({
-  accessToken: config.cmaToken
-})
+// services/contentfulClient.js
+const contentful = require('contentful');
 
-var client = contentful.createClient({
+const config = {
+  space: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  environment: process.env.CONTENTFUL_ENVIRONMENT || 'master',
+  host: process.env.CONTENTFUL_HOST || 'cdn.contentful.com'
+};
+
+const client = contentful.createClient({
+  space: config.space,
   accessToken: config.accessToken,
-  space: config.space
-})
+  environment: config.environment,
+  host: config.host
+});
 
-function getClient(env=null) {
-  if (env != null) {
-    return contentful.createClient({
-      accessToken: config.accessToken,
-      environment: env,
-      space: config.space
-    })
-  } else {
-    return contentful.createClient({
-      accessToken: config.accessToken,
-      space: config.space
-    })
-  }
-}
-
-// exports.client = client
-module.exports = {
-  client: client,
-  cmaclient: cmaclient,
-  config: config,
-  getClient: getClient
-}
+module.exports = { config, client };
