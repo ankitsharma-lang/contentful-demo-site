@@ -1,26 +1,13 @@
-var client = require('./contentfulClient').client
-var cmaclient = require('./contentfulClient').cmaclient
-var config = require('./contentfulClient').config
+// services/spaces.js
+const contentfulManagement = require('contentful-management');
 
-function getSpace (query) {
-  query = query || {}
-  // query.content_type = 'product'
-  return client.getSpace(query)
+const managementClient = contentfulManagement.createClient({
+  accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN   // set in Vercel
+});
+
+function getEnvironment() {
+  const spaceId = process.env.CONTENTFUL_SPACE_ID;
+  return managementClient.getSpace(spaceId).then(space => space.getEnvironments());
 }
 
-function getEnvironment (query) {
-  query = query || {}
-  return cmaclient.getSpace(config.space)
-  .then((space) => space.getEnvironments())
-}
-
-function getLocales (query) {
-  query = query || {}
-  return client.getLocales(query)
-}
-
-module.exports = {
-  getSpace,
-  getEnvironment,
-  getLocales
-}
+module.exports = { getEnvironment };
